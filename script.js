@@ -37,7 +37,7 @@ function renderPreguntes() {
     html += `<h3>${p.pregunta}</h3><div class="respostes">`;
     p.respostes.forEach((r) => {
       html += `<button data-q="${i}" data-r="${r.id}">
-                 <img src="${r.resposta}" alt="Logo">
+                 <img src="${r.resposta}" alt="Logo" width="60">
                </button>`;
     });
     html += `</div>`;

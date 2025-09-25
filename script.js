@@ -6,13 +6,16 @@ const resultatsDiv = document.getElementById("resultats");
 let preguntes = [];
 let seleccionades = [];
 
-// Cargar preguntas desde PHP
+// 1️ Cargar preguntas desde la API
 async function carregarPreguntes() {
   try {
     const res = await fetch('getPreguntes.php?num=10', { credentials: 'same-origin' });
     if (!res.ok) throw new Error(`Error al cargar preguntas: ${res.status}`);
     preguntes = await res.json();
+
+    // Inicializar array de respuestas seleccionadas
     seleccionades = new Array(preguntes.length).fill(null);
+
     renderPreguntes();
     renderitzarMarcador();
   } catch (err) {
@@ -20,29 +23,27 @@ async function carregarPreguntes() {
   }
 }
 
-// Renderizar preguntas y logos
+// 2️ Renderizar preguntas y botones
 function renderPreguntes() {
   let html = "";
   preguntes.forEach((p, i) => {
-    html += `<div class="pregunta"><h3>${p.pregunta}</h3><div class="respostes">`;
+    html += `<h3>${p.pregunta}</h3><div class="respostes">`;
     p.respostes.forEach((r, j) => {
-      html += `<button data-q="${i}" data-r="${j}">
-                 <img src="${r.resposta}" alt="Logo">
-               </button>`;
+      html += `<button data-q="${i}" data-r="${r.id}"><img src="${r.resposta}" alt="Logo"></button>`;
     });
-    html += `</div></div>`;
+    html += `</div>`;
   });
   contenidor.innerHTML = html;
 }
 
-// Manejo de clicks
+// 3️ Manejo de clicks
 contenidor.addEventListener("click", e => {
   const btn = e.target.closest("button");
   if (!btn) return;
   const q = parseInt(btn.dataset.q);
   const r = parseInt(btn.dataset.r);
 
-  if (seleccionades[q] !== null) return;
+  if (seleccionades[q] !== null) return; // ya contestada
 
   seleccionades[q] = r;
   btn.classList.add("seleccionat");
@@ -54,12 +55,12 @@ contenidor.addEventListener("click", e => {
   }
 });
 
-// Actualizar marcador
+// 4️ Actualizar marcador
 function renderitzarMarcador() {
   marcador.textContent = `Preguntes respostes: ${seleccionades.filter(x => x !== null).length} de ${preguntes.length}`;
 }
 
-// Enviar respuestas a finalitza.php
+// 5️ Enviar respuestas a finalitza.php
 btnEnviar.addEventListener("click", async () => {
   try {
     const res = await fetch('finalitza.php', {
@@ -72,12 +73,12 @@ btnEnviar.addEventListener("click", async () => {
     if (!res.ok) throw new Error(`Error al enviar respuestas: ${res.status}`);
 
     const resultat = await res.json();
-
     if (resultat.error) {
       resultatsDiv.textContent = `Error: ${resultat.error}`;
     } else {
       resultatsDiv.textContent = `Has encertat ${resultat.correctes} de ${resultat.total}`;
     }
+    btnEnviar.classList.add("hidden");
   } catch (err) {
     resultatsDiv.textContent = `No se pudo enviar las respuestas: ${err.message}`;
   }

@@ -1,37 +1,34 @@
 <?php
+require 'config.php';
 header('Content-Type: application/json');
-session_start();
 
-// Cargar todas las preguntas desde el JSON
-$data = json_decode(file_get_contents('data.json'), true);
-$all = $data['preguntes']; // nota: coincide con tu data.js
-
+// Número de preguntas solicitadas
 $num = isset($_GET['num']) ? intval($_GET['num']) : 10;
-if ($num < 1) $num = 1;
-if ($num > count($all)) $num = count($all);
 
-// Mezclar y coger N preguntas
-shuffle($all);
-$pick = array_slice($all, 0, $num);
+// 1️ Seleccionar preguntas aleatorias
+$stmt = $pdo->prepare("SELECT * FROM preguntes ORDER BY RAND() LIMIT ?");
+$stmt->bindValue(1, $num, PDO::PARAM_INT);
+$stmt->execute();
+$preguntas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Guardar en sesión con correctIndex
-// Necesitamos generar correctIndex a partir de la propiedad "correcta"
-foreach ($pick as &$p) {
-    foreach ($p['respostes'] as $idx => $r) {
-        if ($r['correcta'] === true) {
-            $p['correctIndex'] = $idx;
-            break;
-        }
-    }
-}
-$_SESSION['quiz_questions'] = $pick;
+// 2️ Para cada pregunta, traer sus respuestas
+$result = [];
+foreach ($preguntas as $p) {
+    $stmt2 = $pdo->prepare("SELECT id, resposta FROM respostes WHERE pregunta_id = ?");
+    $stmt2->execute([$p['id']]);
+    $respuestas = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
-// Crear copia sin correctIndex para enviar al cliente
-$out = [];
-foreach ($pick as $p) {
-    $copy = $p;
-    unset($copy['correctIndex']);
-    $out[] = $copy;
+    $result[] = [
+        "id" => $p['id'],
+        "pregunta" => $p['pregunta'],
+        "respostes" => $respuestas // No enviamos campo 'correcta' para ocultarlo
+    ];
 }
 
-echo json_encode($out, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+// 3️ Guardar las preguntas en sesión para luego comparar respuestas
+session_start();
+$_SESSION['quiz_questions'] = $preguntas;
+
+echo json_encode($result);
+
+

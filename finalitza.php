@@ -1,19 +1,19 @@
 <?php
+require 'config.php';
 header('Content-Type: application/json');
 session_start();
 
-// Leer las respuestas enviadas por el front
-$answers = json_decode(file_get_contents('php://input'), true);
+// Leer respuestas enviadas desde el front
+$data = json_decode(file_get_contents("php://input"), true);
 
-if (!is_array($answers)) {
+if (!is_array($data)) {
     http_response_code(400);
-    echo json_encode(["error" => "Formato de respuestas incorrecto"]);
+    echo json_encode(["error" => "Formato de datos incorrecto"]);
     exit;
 }
 
-// Recuperar las preguntas guardadas en sesión con correctIndex
+// Recuperar preguntas almacenadas en sesión
 $stored = $_SESSION['quiz_questions'] ?? null;
-
 if (!$stored) {
     http_response_code(400);
     echo json_encode(["error" => "No hay preguntas en sesión"]);
@@ -23,12 +23,14 @@ if (!$stored) {
 $total = count($stored);
 $correctes = 0;
 
-// Comparar respuestas del usuario con correctIndex
-for ($i = 0; $i < $total; $i++) {
-    $correctIndex = $stored[$i]['correctIndex'];
-    if (isset($answers[$i]) && $answers[$i] === $correctIndex) {
-        $correctes++;
-    }
+// Comparar cada respuesta enviada con la correcta
+foreach ($data as $i => $respostaId) {
+    // Buscamos la respuesta correcta en la BD
+    $stmt = $pdo->prepare("SELECT correcta FROM respostes WHERE id = ? AND pregunta_id = ?");
+    $stmt->execute([$respostaId, $stored[$i]['id']]);
+    $correcta = $stmt->fetchColumn();
+
+    if ($correcta == 1) $correctes++;
 }
 
 // Devolver resultado al front

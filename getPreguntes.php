@@ -33,7 +33,7 @@ try {
         $result[] = [
             "id" => $p['id'],
             "pregunta" => $p['pregunta'],
-            "respostes" => $respuestas // NO enviamos "correcta" al front
+            "respostes" => $respuestas 
         ];
     }
 

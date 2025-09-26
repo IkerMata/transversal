@@ -3,9 +3,9 @@ header("Content-Type: application/json; charset=utf-8");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// ---------- CONFIGURACIÓ DB ----------
+//  CONFIGURACIÓ DB 
 $host = "localhost";
-$dbname = "a24ikematgar_Projecte0";  // ← posa el teu nom real
+$dbname = "a24ikematgar_Projecte0";
 $user = "a24ikematgar_Projecte0"; 
 $pass = "ydkNfHItM(2q4yyO";         
 
@@ -19,14 +19,14 @@ try {
     exit;
 }
 
-// ---------- PROCESSAR ACCIONS POST ----------
+//  PROCESSAR ACCIONS POST 
 $input = json_decode(file_get_contents('php://input'), true);
 
 if ($input && isset($input['action'])) {
     try {
         switch ($input['action']) {
 
-            // ---------------- Preguntes ----------------
+            //  Preguntes 
             case "crearPregunta":
                 $stmt = $pdo->prepare("INSERT INTO preguntes (pregunta) VALUES (?)");
                 $stmt->execute([$input['text']]);
@@ -45,7 +45,7 @@ if ($input && isset($input['action'])) {
                 echo json_encode(["success"=>true]);
                 exit;
 
-            // ---------------- Respostes ----------------
+            //  Respostes 
             case "crearResposta":
                 $stmt = $pdo->prepare("INSERT INTO respostes (pregunta_id, resposta, correcta) VALUES (?,?,?)");
                 $stmt->execute([$input['pregunta_id'], $input['text'], $input['es_correcta']]);
@@ -76,7 +76,7 @@ if ($input && isset($input['action'])) {
     }
 }
 
-// ---------- CARREGAR PREGUNTES I RESPOSTES ----------
+//  CARREGAR PREGUNTES I RESPOSTES 
 try {
     $stmt = $pdo->query("SELECT id, pregunta AS text FROM preguntes");
     $preguntes = $stmt->fetchAll(PDO::FETCH_ASSOC);

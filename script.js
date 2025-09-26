@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let preguntes = [];      // Array de preguntes carregades des de l'API
   let seleccionades = [];   // Array amb les respostes seleccionades per l'usuari
 
-  // ====================== QUIZ ======================
 
   /** Carrega les preguntes des del backend (getPreguntes.php) */
   async function carregarPreguntes() {
@@ -47,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
       let respostesBarrejades = [...p.respostes].sort(() => Math.random() - 0.5);
 
       respostesBarrejades.forEach((r) => {
-        let imgSrc = r.resposta || "imagenes/default.png"; // fallback si no hi ha imatge
+        let imgSrc = r.resposta || "imagenes/default.png"; 
         html += `<button data-q="${i}" data-r="${r.id}">
                    <img src="${imgSrc}" alt="Logo" width="60">
                  </button>`;
@@ -63,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!btn) return;
     const q = parseInt(btn.dataset.q);
     const r = parseInt(btn.dataset.r);
-    if (seleccionades[q] !== null) return; // ja està respondida
+    if (seleccionades[q] !== null) return; 
     seleccionades[q] = r;
     btn.classList.add("seleccionat");
     renderitzarMarcador();
@@ -93,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ====================== Toggle Admin / Quiz ======================
+  // ADMIN
 
   /** Mostra el mode Admin SPA */
   if(btnAdminMode) {
@@ -117,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ====================== ADMIN SPA ======================
+  // ADMIN SPA
 
   /** Carrega les preguntes per al mode admin */
   async function carregarAdmin(adminMode = false) {
@@ -160,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ---------------- Funcions CRUD Preguntes ----------------
+  // Funcions CRUD Preguntes
 
   /** Crea nova pregunta */
   function novaPregunta() {
@@ -243,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }).then(r => r.json()).then(() => carregarAdmin(true));
   };
 
-  // ---------------- Funcions CRUD Respostes ----------------
+  //  Funcions CRUD Respostes 
 
   /** Crea nova resposta per a una pregunta */
   function novaResposta(pregunta_id) {
@@ -267,7 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }).then(r => r.json()).then(() => editarPregunta(pregunta_id));
   };
 
-  // ====================== Inicialitzar ======================
+  //Inicialitzar 
   adminPanel.style.display = "none";
   contenidor.style.display = "block"; 
   marcador.style.display = "block";

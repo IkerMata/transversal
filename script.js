@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // -------------------- Referències al DOM --------------------
+  //pm ,`ñn Referències al DOM 
+
   const contenidor = document.getElementById("questionari");
   const marcador = document.getElementById("marcador");
   const btnEnviar = document.getElementById("btnEnviar");
@@ -135,30 +136,45 @@ document.addEventListener("DOMContentLoaded", () => {
     adminPanel.innerHTML = "<h2>Panel Admin</h2>";
 
     if(adminMode){
-      const btnNova = document.createElement("button");
-      btnNova.textContent = "Nova Pregunta";
-      btnNova.style.marginBottom = "10px";
-      btnNova.addEventListener("click", novaPregunta);
-      adminPanel.appendChild(btnNova);
-    }
-
-    preguntesAdmin.forEach(p => {
-      const div = document.createElement("div");
-      div.className = "pregunta-admin";
-      if(adminMode){
-        div.innerHTML = `
-          <div><strong>${p.text}</strong></div>
-          <div>
-            <button onclick="editarPregunta(${p.id})">Editar</button>
-            <button onclick="eliminarPregunta(${p.id})">Eliminar</button>
-          </div>
-          <hr>
-        `;
-      }
-      adminPanel.appendChild(div);
-    });
+    const btnNova = document.createElement("button");
+    btnNova.textContent = "Nova Pregunta";
+    btnNova.style.marginBottom = "10px";
+    btnNova.addEventListener("click", novaPregunta);
+    adminPanel.appendChild(btnNova);
   }
 
+  preguntesAdmin.forEach(p => {
+    const div = document.createElement("div");
+    div.className = "pregunta-admin";
+
+    if(adminMode){
+      const titol = document.createElement("div");
+      titol.innerHTML = `<strong>${p.text}</strong>`;
+      div.appendChild(titol);
+
+      const divBotons = document.createElement("div");
+
+      // Botó Editar
+      const btnEditar = document.createElement("button");
+      btnEditar.textContent = "Editar";
+      btnEditar.addEventListener("click", () => editarPregunta(p.id)); 
+      divBotons.appendChild(btnEditar);
+
+      // Botó Eliminar
+      const btnEliminar = document.createElement("button");
+      btnEliminar.textContent = "Eliminar";
+      btnEliminar.addEventListener("click", () => eliminarPregunta(p.id)); 
+      divBotons.appendChild(btnEliminar);
+
+      div.appendChild(divBotons);
+    }
+
+    const separador = document.createElement("hr");
+    div.appendChild(separador);
+
+    adminPanel.appendChild(div);
+  });
+}
   // Funcions CRUD Preguntes
 
   /** Crea nova pregunta */
@@ -190,15 +206,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const llista = document.createElement("div");
         llista.style.marginTop = "10px";
-        p.respuestas.forEach(r => {
-          const div = document.createElement("div");
-          div.innerHTML = `
-            <input type="text" value="${r.text}" id="resposta_${r.id}" style="width:60%">
-            Correcta <input type="checkbox" id="correcta_${r.id}" ${r.es_correcta ? "checked" : ""}>
-            <button onclick="eliminarResposta(${r.id}, ${id})">Eliminar</button>
-          `;
-          llista.appendChild(div);
-        });
+        
+      p.respuestas.forEach(r => {
+        const div = document.createElement("div");
+
+        const inputText = document.createElement("input");
+        inputText.type = "text";
+        inputText.value = r.text;
+        inputText.style.width = "60%";
+        inputText.id = `resposta_${r.id}`;
+        div.appendChild(inputText);
+
+        const labelCorrecta = document.createElement("label");
+        labelCorrecta.style.marginLeft = "5px";
+        const inputCorrecta = document.createElement("input");
+        inputCorrecta.type = "checkbox";
+        inputCorrecta.checked = r.es_correcta ? true : false;
+        inputCorrecta.id = `correcta_${r.id}`;
+        labelCorrecta.appendChild(inputCorrecta);
+        labelCorrecta.appendChild(document.createTextNode(" Correcta"));
+        div.appendChild(labelCorrecta);
+
+        const btnEliminarResp = document.createElement("button");
+        btnEliminarResp.textContent = "Eliminar";
+        btnEliminarResp.style.marginLeft = "10px";
+        btnEliminarResp.addEventListener("click", () => eliminarResposta(r.id, id)); 
+        div.appendChild(btnEliminarResp);
+
+        llista.appendChild(div);
+      });
         adminPanel.appendChild(llista);
 
         const btnNovaResp = document.createElement("button");
@@ -210,7 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btnGuardar.textContent = "Guardar";
         btnGuardar.style.display = "block";
         btnGuardar.style.marginTop = "10px";
-        btnGuardar.addEventListener("click", () => {
+        btnGuardar.addEventListener("click", () => { 
           fetch('admin.php', {
             method:'POST',
             headers:{'Content-Type':'application/json'},
@@ -255,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
       body: JSON.stringify({action:"crearResposta", pregunta_id, text, es_correcta: es_correcta?1:0})
     }).then(r => r.json()).then(() => editarPregunta(pregunta_id));
   }
-
+  
   /** Elimina resposta d'una pregunta */
   window.eliminarResposta = (id, pregunta_id) => {
     if(!confirm("Segur que vols eliminar aquesta resposta?")) return;

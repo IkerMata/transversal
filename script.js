@@ -1,17 +1,59 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  //pm ,`ñn Referències al DOM 
-
+// Referències al DOM 
+  const contenidorUsuari = document.getElementById("contenidor-usuari");
   const contenidor = document.getElementById("questionari");
   const marcador = document.getElementById("marcador");
   const btnEnviar = document.getElementById("btnEnviar");
-  const resultatsDiv = document.getElementById("resultats");
-  const adminPanel = document.getElementById("admin-panel");
-  const btnAdminMode = document.getElementById("btnAdminMode");
-  const btnQuizMode = document.getElementById("btnQuizMode");
+  const resultatsDiv = document.getElementById("resultats"); // Assegura't que existeix a l'HTML o ignora
+  const adminPanel = document.getElementById("admin-panel"); // Assegura't que existeix a l'HTML o ignora
+  const btnAdminMode = document.getElementById("btnAdminMode"); // Assegura't que existeix a l'HTML o ignora
+  const btnQuizMode = document.getElementById("btnQuizMode"); // Assegura't que existeix a l'HTML o ignora
+  const contenidorQuiz = document.getElementById("quiz-wrapper");
+  const salutacio = document.getElementById("salutacio");
+  const inputNom = document.getElementById("nom-usuari");
+  const btnGuardarNom = document.getElementById("guardar-nom");
+  const btnEsborrarNom = document.getElementById("esborrar-nom");
 
-  let preguntes = [];      // Array de preguntes carregades des de l'API
+  let preguntes = [];   // Array de preguntes carregades des de l'API
   let seleccionades = [];   // Array amb les respostes seleccionades per l'usuari
+
+    // Funció per mostrar quiz i salutació
+  function iniciarQuiz(nom) {
+    salutacio.textContent = `Benvingut/da, ${nom}!`; 
+    contenidorUsuari.style.display = "none";         // amagar formulari nom
+    contenidorQuiz.style.display = "block";          // mostrar quiz
+    marcador.style.display = "block";
+    btnEnviar.style.display = "inline-block";
+
+    carregarPreguntes(); 
+  }
+
+  // ---- Comprovar si hi ha nom guardat ----
+  const nomGuardat = localStorage.getItem("nomUsuari"); 
+  if (nomGuardat) {
+    iniciarQuiz(nomGuardat); // mostrar directament quiz si hi ha nom
+  } else {
+    contenidorUsuari.style.display = "block"; // mostrar formulari
+    contenidorQuiz.style.display = "none";
+  }
+
+  // ---- Guardar nom al localStorage ----
+  btnGuardarNom.addEventListener('click', () => { 
+    const nom = inputNom.value.trim();
+    if(nom === "") return alert("Introdueix un nom vàlid!");
+    localStorage.setItem("nomUsuari", nom);
+    iniciarQuiz(nom);
+  });
+
+  // ---- Esborrar nom i tornar a mostrar formulari ----
+  btnEsborrarNom.addEventListener('click', () => { 
+    localStorage.removeItem("nomUsuari");
+    contenidorUsuari.style.display = "block";
+    contenidorQuiz.style.display = "none";
+    inputNom.value = "";
+  });
+
 
 
   /** Carrega les preguntes des del backend (getPreguntes.php) */
@@ -302,6 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }).then(r => r.json()).then(() => editarPregunta(pregunta_id));
   };
 
+/* Codi a eliminar/comentar al final de script.js:*/
   //Inicialitzar 
   adminPanel.style.display = "none";
   contenidor.style.display = "block"; 
@@ -309,4 +352,5 @@ document.addEventListener("DOMContentLoaded", () => {
   btnEnviar.style.display = "inline-block";
 
   carregarPreguntes();
-});
+
+}); 

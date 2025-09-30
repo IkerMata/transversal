@@ -3,17 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <title>Quiz Logos</title>
-</head>
+  </head>
 <body>
   <h1>Quiz Logos</h1>
 
-<button id="btnAdminMode">Mode Admin</button>
-<button id="btnQuizMode">Mostra Preguntes</button>
-<div id="admin-panel"></div>
-<div id="questionari"></div>
-<div id="marcador"></div>
-<button id="btnEnviar" class="hidden">Enviar Resultats</button>
-<div id="resultats"></div>
+<div id="mode-selector" style="margin-bottom: 15px;">
+    <button id="btnAdminMode">Mode Admin</button>
+    <button id="btnQuizMode" >Tornar al Quiz</button>
+</div>
+
+<div id="contenidor-usuari"> 
+  <form id="formulari-usuari">
+    <label for="nom-usuari">Introdueix el teu nom:</label>
+    <input type="text" id="nom-usuari">
+    <button type="button" id="guardar-nom">Guardar</button>
+  </form>
+</div>
+
+<div id="quiz-wrapper"> 
+  <div id="benvinguda"> 
+    <p id="salutacio"></p>
+    <button type="button" id="esborrar-nom">Esborrar nom</button>
+  </div>
+
+  <div id="questionari">
+    </div>
+  <div id="marcador"></div>
+  <button id="btnEnviar" class="hidden">Enviar</button>
+  
+  <div id="resultats"></div> 
+</div>
+
+<div id="admin-panel" style="display:none;">
+    </div>
 
 <script type="module" src="script.js"></script>
 </body>

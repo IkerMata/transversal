@@ -1,13 +1,13 @@
 {
   "preguntes": [
-    {
+        {
       "id": 1,
       "pregunta": "Quina marca és BMW?",
       "respostes": [
-        { "id": 1, "resposta": "https://cdn.simpleicons.org/bmw", "correcta": true },
-        { "id": 2, "resposta": "https://cdn.simpleicons.org/mercedes", "correcta": false },
-        { "id": 3, "resposta": "https://cdn.simpleicons.org/audi", "correcta": false },
-        { "id": 4, "resposta": "https://cdn.simpleicons.org/lexus", "correcta": false }
+        { "id": 1, "resposta": "https://cdn.simpleicons.org/bmw.svg", "correcta": true },
+        { "id": 2, "resposta": "https://cdn.simpleicons.org/mercedes.svg", "correcta": false },
+        { "id": 3, "resposta": "https://cdn.simpleicons.org/audi.svg", "correcta": false },
+        { "id": 4, "resposta": "https://cdn.simpleicons.org/lexus.svg", "correcta": false }
       ]
     },
     {

@@ -17,6 +17,6 @@ Aquest projecte contribueix a l'**ODS 4: Educació de Qualitat**, ja que:
 - **Frontend**: HTML, JavaScript  
 - **Backend**: PHP  
 - **Emmagatzematge de dades**: JSON  
-![Text alternatiu](<img width="1186" height="496" alt="Captura de pantalla de 2025-10-03 10-02-10" src="https://github.com/user-attachments/assets/ff9c2c1b-5bd5-4018-a2da-86c1edca8bc8" />
+![Text alternatiu](<img width="1186" height="496" alt="Captura de pantalla de 2025-10-03 10-02-10 (Còpia)" src="https://github.com/user-attachments/assets/35321a8a-ad7d-48d3-9d0a-b2232cb020e2" />
 )
 

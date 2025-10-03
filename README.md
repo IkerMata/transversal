@@ -26,7 +26,8 @@ Aquest projecte contribueix a l'**ODS 4: Educació de Qualitat**, ja que:
 [![Vercel Deploy](https://img.shields.io/badge/Deploy-Vercel-brightgreen?logo=vercel)](https://nom-de-la-teva-app.vercel.app)
 
 - **Captura SonarCloud**:  
-![SonarCloud Dashboard](assets/sonarcloud.png)
+<img width="1186" height="496" alt="Captura de pantalla de 2025-10-03 10-02-10" src="https://github.com/user-attachments/assets/7904a8a1-8b2d-4958-8a16-927e13d3fc46" />
+
 
 - **Historial Git (visualització branques)**:  
 ![Git History](assets/git-history.png)

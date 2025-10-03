@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let temps = 30;
   let jocAcabat = false;
   let timerIniciat = false;
+  let timerPausat = false; // Para controlar si el timer está pausado
 
   // ITERACIÓ 3: Objecte estatDeLaPartida segons especificació
   let estatDeLaPartida = {
@@ -75,6 +76,34 @@ document.addEventListener("DOMContentLoaded", () => {
     timerIniciat = false;
   }
 
+  // Nueva función para pausar el timer (mantiene el tiempo actual)
+  function pausarTimer() {
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+    timerPausat = true;
+  }
+
+  // Nueva función para reanudar el timer desde donde se quedó
+  function reanudarTimer() {
+    if (timerPausat && !jocAcabat && temps > 0) {
+      timerPausat = false;
+      
+      intervalId = setInterval(() => {
+        console.log("Timer tick:", temps); // Debug
+        temps--;
+        actualitzarDisplayTimer();
+        
+        if (temps <= 0) {
+          console.log("Timer acabado!"); // Debug
+          finalitzarJocPerTemps();
+          return; // Salir del interval
+        }
+      }, 1000);
+    }
+  }
+
   function actualitzarDisplayTimer() {
     const timerElement = document.getElementById("timer");
     timerElement.textContent = `Temps restant: ${temps}s`;
@@ -116,21 +145,30 @@ document.addEventListener("DOMContentLoaded", () => {
       
       const preguntesRespostes = seleccionades.filter(x => x !== null).length;
       
-      // Limpiar completamente y mostrar solo resultados
-      resultatsDiv.innerHTML = `
-        <div style="text-align: center; font-size: 24px; margin-top: 50px;">
-          <h2>Resultats Finals</h2>
-          <p style="font-size: 20px;">Has respost <strong>${preguntesRespostes}</strong> preguntes</p>
-          <p style="font-size: 20px;">Has encertat <strong>${resultat.correctes}</strong> de <strong>${resultat.total}</strong></p>
+      // OCULTAR TODO: botones de admin/quiz, título, etc.
+      document.getElementById("mode-selector").style.display = "none";
+      document.querySelector("h1").style.display = "none";
+      contenidorQuiz.style.display = "none";
+      
+      // Limpiar completamente y mostrar SOLO resultados
+      document.body.innerHTML = `
+        <div style="text-align: center; font-size: 24px; margin-top: 100px; font-family: Arial, sans-serif;">
+          <h2 style="color: #333;">Resultats Finals</h2>
+          <p style="font-size: 28px; margin: 30px 0;">Has encertat <strong style="color: #007cba;">${resultat.correctes}</strong> de <strong>${resultat.total}</strong></p>
           <br>
-          <button onclick='location.reload()' style='padding: 15px 30px; font-size: 18px; background: #007cba; color: white; border: none; cursor: pointer; border-radius: 5px;'>Jugar de nou</button>
+          <button onclick='location.reload()' style='padding: 20px 40px; font-size: 20px; background: #007cba; color: white; border: none; cursor: pointer; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);'>Jugar de nou</button>
         </div>
       `;
     } catch (err) {
-      resultatsDiv.innerHTML = `
-        <div style="text-align: center; font-size: 20px; margin-top: 50px;">
+      // OCULTAR TODO también en caso de error
+      document.getElementById("mode-selector").style.display = "none";
+      document.querySelector("h1").style.display = "none";
+      contenidorQuiz.style.display = "none";
+      
+      document.body.innerHTML = `
+        <div style="text-align: center; font-size: 20px; margin-top: 100px; font-family: Arial, sans-serif;">
           <p style="color: red;">Error: No se pudo calcular els resultats</p>
-          <button onclick='location.reload()' style='padding: 15px 30px; font-size: 18px; background: #007cba; color: white; border: none; cursor: pointer; border-radius: 5px;'>Jugar de nou</button>
+          <button onclick='location.reload()' style='padding: 20px 40px; font-size: 18px; background: #007cba; color: white; border: none; cursor: pointer; border-radius: 8px;'>Jugar de nou</button>
         </div>
       `;
     }
@@ -262,41 +300,22 @@ document.addEventListener("DOMContentLoaded", () => {
     aturarTimer();
     jocAcabat = true;
     
-    try {
-      const res = await fetch('finalitza.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'same-origin',
-        body: JSON.stringify(seleccionades)
-      });
-      if (!res.ok) throw new Error(`Error al enviar respuestas: ${res.status}`);
-      const resultat = await res.json();
-      
-      const preguntesRespostes = seleccionades.filter(x => x !== null).length;
-      resultatsDiv.innerHTML = resultat.error ? 
-        `Error: ${resultat.error}` : 
-        `Has respost ${preguntesRespostes} preguntes i has encertat ${resultat.correctes} de ${resultat.total}`;
-      
-      btnEnviar.classList.add("hidden");
-      
-      // Deshabilitar todos los botones
-      const buttons = contenidor.querySelectorAll("button");
-      buttons.forEach(btn => {
-        btn.disabled = true;
-      });
-    } catch (err) {
-      resultatsDiv.textContent = `No se pudo enviar las respuestas: ${err.message}`;
-    }
+    // Usar la misma función para mostrar resultados limpios
+    mostrarResultatsFinals();
   });
 
   // ---------------- ADMIN ----------------
 
   if(btnAdminMode) {
     btnAdminMode.addEventListener("click", () => {
+      // PAUSAR EL TIMER cuando se entra en modo admin (mantiene el tiempo)
+      pausarTimer();
+      
       adminPanel.style.display = "block";
       contenidor.style.display = "none";
       marcador.style.display = "none";
       btnEnviar.style.display = "none";
+      document.getElementById("timer").style.display = "none";
       carregarAdmin(true);
     });
   }
@@ -307,7 +326,10 @@ document.addEventListener("DOMContentLoaded", () => {
       contenidor.style.display = "block";
       marcador.style.display = "block";
       btnEnviar.style.display = "inline-block";
-      carregarPreguntes();
+      document.getElementById("timer").style.display = "block";
+      
+      // REANUDAR EL TIMER desde donde se quedó (no reiniciar)
+      reanudarTimer();
     });
   }
 

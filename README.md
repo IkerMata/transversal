@@ -17,13 +17,6 @@ Aquest projecte contribueix a l'**ODS 4: Educació de Qualitat**, ja que:
 - **Frontend**: HTML, JavaScript  
 - **Backend**: PHP  
 - **Emmagatzematge de dades**: JSON  
-
-## Com Executar el Projecte
-
-1. Clona aquest repositori a la teva màquina local:
-   ```bash
-   git clone https://github.com/IkerMata/transversal.git
-
-   ![Uploading Captura de pantalla de 2025-10-03 10-02-10.png…](<img width="1186" height="496" alt="Captura de pantalla de 2025-10-03 10-02-10" src="https://github.com/user-attachments/assets/c38fd154-714b-412d-bb1c-54ba93f55979" />
+![Text alternatiu](<img width="1186" height="496" alt="Captura de pantalla de 2025-10-03 10-02-10" src="https://github.com/user-attachments/assets/ff9c2c1b-5bd5-4018-a2da-86c1edca8bc8" />
 )
 

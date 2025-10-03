@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="style.css">
-  <title>Quiz Logos</title>
-  <style>
-    .hidden {
-      display: none;
-    }
-  </style>
-  </head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="style.css">
+<title>Quiz Logos</title>
+<style>
+ /* Mantén la clase hidden por si la necesitas en el script */
+.hidden {
+ display: none;
+}
+</style>
+</head>
 <body>
-  <h1>Quiz Logos</h1>
+<h1>Quiz Logos</h1>
 
 <div id="mode-selector" style="margin-bottom: 15px;">
-    <button id="btnAdminMode">Mode Admin</button>
-    <button id="btnQuizMode" >Tornar al Quiz</button>
+<button id="btnAdminMode">Mode Admin</button>
+<button id="btnQuizMode">Tornar al Quiz</button>
 </div>
 
 <div id="contenidor-usuari"> 
-  <form id="formulari-usuari">
-    <label for="nom-usuari">Introdueix el teu nom:</label>
-    <input type="text" id="nom-usuari">
-    <button type="button" id="guardar-nom">Guardar</button>
-  </form>
+<form id="formulari-usuari">
+<label for="nom-usuari">Introdueix el teu nom:</label>
+<input type="text" id="nom-usuari">
+<button type="button" id="guardar-nom">Guardar</button>
+</form>
+</div>
+
+<div id="timer" style="font-size:18px; font-weight:bold; margin:10px 0;">
+Temps: 30s
 </div>
 
 <div id="quiz-wrapper"> 
-  <div id="benvinguda"> 
-    <p id="salutacio"></p>
-    <button type="button" id="esborrar-nom">Esborrar nom</button>
-  </div>
-
-  <div id="questionari">
-    </div>
-  <div id="timer" style="font-size:18px; font-weight:bold; margin:10px 0;">
-  Temps: 30s
-  </div>
-
-  <div id="marcador"></div>
-  <button id="btnEnviar" class="hidden">Enviar</button>
-  
-  <div id="resultats"></div> 
+<div id="top-nav"> 
+<p id="salutacio"></p>
+<button type="button" id="esborrar-nom">Esborrar nom</button>
 </div>
 
-<div id="admin-panel" style="display:none;">
-    </div>
+ <div id="questionari"></div>
+ 
+ <div id="marcador"></div>
+
+<button id="btnEnviar">Següent Pregunta</button>
+</div>
+
+<div id="resultats"></div> 
+
+<div id="admin-panel" style="display:none;"></div>
 
 <script type="module" src="script.js"></script>
 </body>

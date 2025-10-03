@@ -1,78 +1,211 @@
+.hidden {
+  display: none;
+}
+
 /* Contenedor general */
 #quiz-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;   /* antes era height: 100vh, ahora min-height */
-    flex-direction: column;
-  }
-  
-  /* Caja de preguntas */
-  #questionari {
-    background: white;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    max-width: 600px;
-    width: 90%;
-    text-align: center;      /* Centra el texto */
-    margin: 0 auto;          /* Centra horizontalmente */
-  }
-  
-  #questionari h3 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;      /* Por si acaso */
-  }
-  
-  /* Respuestas centradas */
-  .respostes {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  
-  /* Panel admin */
-  #admin-panel {
-    margin: 40px auto;        /* espacio controlado */
-    padding: 20px;
-    max-width: 800px;
-    text-align: left;
-  }
-  
-  /* Botones respuestas */
-  .respostes button {
-    background: #fff;
-    border: 2px solid #007cba;
-    border-radius: 10px;
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  
-  .respostes button:hover {
-    background: #007cba;
-    color: white;
-  }
-  
-  .respostes img {
-    max-width: 100px;
-    max-height: 100px;
-  }
-  
-  /* Marcador */
-  #marcador {
-    margin-top: 20px;
-    font-size: 18px;
-  }
-  
-  /* Timer arriba derecha */
-  #timer {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+  background: linear-gradient(135deg, #007cba, #00bfa6);
+  font-family: 'Segoe UI', sans-serif;
+  position: relative;
+}
+
+/* Titulo del quiz */
+h1 {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 36px;
+  color: #007cba;
+  font-weight: bold;
+  transition: opacity 0.3s;
+}
+
+/* Caja de login */
+#contenidor-usuari {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  animation: fadeIn 0.6s ease-in-out;
+  margin: 20px auto;
+}
+
+#contenidor-usuari input {
+  width: 80%;
+  padding: 12px;
+  margin: 15px 0;
+  border: 2px solid #007cba;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+#contenidor-usuari input:focus {
+  outline: none;
+  border-color: #00bfa6;
+  box-shadow: 0 0 10px rgba(0,191,166,0.4);
+}
+
+#contenidor-usuari button {
+  background: #007cba;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 10px;
+  transition: all 0.3s;
+}
+
+#contenidor-usuari button:hover {
+  background: #005f8a;
+  transform: scale(1.05);
+}
+
+/* Top nav: salutacio y borrar nombre */
+#top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 600px;
+  margin-bottom: 10px;
+}
+
+#top-nav #salutacio {
+  font-size: 18px;
+  color: white;
+  font-weight: bold;
+}
+
+#top-nav #esborrar-nom {
+  background: #ff5252;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#top-nav #esborrar-nom:hover {
+  background: #d43d3d;
+  transform: scale(1.05);
+}
+
+/* Caja de preguntas */
+#questionari {
+  position: relative;
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  max-width: 600px;
+  width: 90%;
+  margin: 20px auto;
+  animation: slideUp 0.5s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+#questionari h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Respuestas centradas */
+.respostes {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.respostes button {
+  background: #fff;
+  border: 2px solid #007cba;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.respostes button:hover {
+  background: #007cba;
+  color: white;
+  transform: scale(1.1);
+}
+
+.respostes img {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+/* Marcador arriba derecha debajo del timer */
+#marcador {
+  position: absolute;
+  top: 60px;
+  right: 30px;
+  font-size: 18px;
+  color: white;
+  font-weight: bold;
+}
+
+/* Timer arriba derecha */
+#timer {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+/* Botón enviar respuestas fuera del recuadro, centrado */
+#btnEnviar {
+  margin-top: 20px;
+  background: #00bfa6;
+  color: white;
+  border: none;
+  padding: 15px 35px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#btnEnviar:hover {
+  background: #009b86;
+  transform: scale(1.05);
+}
+
+/* Panel admin */
+#admin-panel {
+  margin: 40px auto;
+  padding: 20px;
+  max-width: 800px;
+  text-align: left;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -23,3 +23,6 @@ Aquest projecte contribueix a l'**ODS 4: Educació de Qualitat**, ja que:
 1. Clona aquest repositori a la teva màquina local:
    ```bash
    git clone https://github.com/IkerMata/transversal.git
+
+   ![Uploading Captura de pantalla de 2025-10-03 10-02-10.png…]()
+

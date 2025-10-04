@@ -173,8 +173,9 @@ h1 {
 }
 
 /* Botón enviar respuestas fuera del recuadro, centrado */
+/* Botón enviar ahora DENTRO del recuadro */
 #btnEnviar {
-  margin-top: 20px;
+  margin-top: 30px; /* Un poco más de margen para que respire */
   background: #00bfa6;
   color: white;
   border: none;
@@ -184,7 +185,7 @@ h1 {
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s;
-}
+  }
 
 #btnEnviar:hover {
   background: #009b86;

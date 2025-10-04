@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="style.css">
+<link rel="shortcut icon" href="quiz.ico" type="image/x-icon">
 <title>Quiz Logos</title>
 <style>
  /* Mantén la clase hidden por si la necesitas en el script */
@@ -41,9 +42,12 @@ Temps: 30s
 
     <div id="questionari">
         <div id="pregunta-actual-contenidor"></div>
-
-        <button id="btnEnviar" style="display: none;">Següent Pregunta</button>
+        <div class="controls">
+            <button id="btnAnterior" style="display:none;">Pregunta Anterior</button>
+            <button id="btnEnviar" style="display:none;">Següent Pregunta</button>
+        </div>
     </div>
+    
 </div>
 
 <div id="resultats"></div> 

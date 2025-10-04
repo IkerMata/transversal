@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const contenidor = document.getElementById("questionari");
     const marcador = document.getElementById("marcador");
     const btnEnviar = document.getElementById("btnEnviar");
+    const btnAnterior = document.getElementById("btnAnterior");
     const adminPanel = document.getElementById("admin-panel");
     const btnAdminMode = document.getElementById("btnAdminMode");
     const btnQuizMode = document.getElementById("btnQuizMode");
@@ -33,97 +34,81 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- FUNCIONES DE GESTIÓN DE ESTADO (LOGIN/LOGOUT) ---
     // -------------------------------------------------------------
 
-    // Función unificada para ir a la pantalla de login/cambiar nombre
     function tornarALogin() {
-        // Detener cualquier timer en curso
         aturarTimer();
-        
-        // Limpiar el estado de usuario para forzar el login
         localStorage.removeItem("nomUsuari");
         localStorage.removeItem("isAdmin");
-        
-        // Mostrar solo el contenedor de usuario (login)
+
         contenidorUsuari.style.display = "block";
         contenidorQuiz.style.display = "none";
         adminPanel.style.display = "none";
-        
-        // Ocultar elementos del juego y admin
         if(marcador) marcador.style.display = "none";
         if(btnEnviar) btnEnviar.style.display = "none";
+        if(btnAnterior) btnAnterior.style.display = "none";
         const timerElement = document.getElementById("timer");
         if(timerElement) timerElement.style.display = "none";
         if(topNav) topNav.style.display = "none";
-        
+
         inputNom.value = "";
         salutacio.textContent = "";
-        
-        // Limpiar resultados (si se llama desde la pantalla de resultados)
+
         document.getElementById("resultats").innerHTML = "";
-        
         actualizarBotones();
     }
-    // Hacemos la función global para que pueda ser llamada desde el HTML dinámico de resultados
-    window.tornarALogin = tornarALogin;
 
+    window.tornarALogin = tornarALogin;
 
     function actualizarBotones() {
         const nomGuardat = localStorage.getItem("nomUsuari");
         const esAdmin = localStorage.getItem("isAdmin") === "true";
-    
-        // Ocultar todos los botones de modo por defecto
+
         if(btnAdminMode) btnAdminMode.style.display = "none";
         if(btnQuizMode) btnQuizMode.style.display = "none";
-    
+
         if (adminPanel.style.display === "block") {
-            // Si estamos en el panel de admin, mostrar "Tornar al Quiz"
             if(btnQuizMode) btnQuizMode.style.display = "inline-block";
         } else if (nomGuardat && esAdmin) {
-            // Si estamos en el quiz y somos admin, mostrar "Mode Admin"
             if(btnAdminMode) btnAdminMode.style.display = "inline-block";
         }
     }
-    
+
     function inicializarEstado(nom) {
         const esAdmin = localStorage.getItem("isAdmin") === "true";
         
         contenidorUsuari.style.display = "none";
 
         if (esAdmin) {
-            // Modo Admin
             contenidorQuiz.style.display = "none";
             adminPanel.style.display = "block";
-            
             if(marcador) marcador.style.display = "none";
             if(btnEnviar) btnEnviar.style.display = "none";
+            if(btnAnterior) btnAnterior.style.display = "none";
             const timerElement = document.getElementById("timer");
             if(timerElement) timerElement.style.display = "none";
             
             salutacio.innerHTML = `Panel de Administrador, **${nom}**!`;
             carregarAdmin(true);
             
-            // Mostrar el top-nav en modo admin (contiene el saludo)
             if (topNav) topNav.style.display = "flex";
         } else {
-            // Modo Quiz
             iniciarQuiz(nom);
         }
         
         actualizarBotones();
     }
-    
+
     function iniciarQuiz(nom) {
         salutacio.innerHTML = `Benvingut/da, **${nom}**!`;
         contenidorQuiz.style.display = "block";
         marcador.style.display = "block";
-        btnEnviar.style.display = "block"; // Botón de siguiente pregunta visible
+        btnEnviar.style.display = "block";
+        btnAnterior.style.display = "none";
         adminPanel.style.display = "none";
-
-        // Ocultar el top-nav completamente para quitar el botón Esborrar nom durante el juego
         if (topNav) topNav.style.display = "none";
 
         carregarPreguntes();
     }
-    
+
     // -------------------------------------------------------------
     // --- FLUJO DE INICIO: COMPROBACIÓN DE LOCAL STORAGE ---
     // -------------------------------------------------------------
@@ -133,20 +118,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (nomGuardat) {
         inicializarEstado(nomGuardat);
     } else {
-        // Estado inicial de login
         contenidorUsuari.style.display = "block";
-        
         contenidorQuiz.style.display = "none";
         adminPanel.style.display = "none";
         if(marcador) marcador.style.display = "none";
         if(btnEnviar) btnEnviar.style.display = "none";
+        if(btnAnterior) btnAnterior.style.display = "none";
         const timerElement = document.getElementById("timer");
         if(timerElement) timerElement.style.display = "none";
         if(topNav) topNav.style.display = "none";
-
         actualizarBotones();
     }
-    
+
     // -------------------------------------------------------------
     // --- LISTENERS ---
     // -------------------------------------------------------------
@@ -157,7 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
         localStorage.setItem("nomUsuari", nom);
         
-        // Si el nombre es 'admin', activar el modo administrador
         if (nom.toLowerCase() === 'admin') {
             localStorage.setItem("isAdmin", "true");
         } else {
@@ -167,15 +149,12 @@ document.addEventListener("DOMContentLoaded", () => {
         inicializarEstado(nom);
     });
 
-    // Botón "Esborrar nom" (logout/resetear)
     if(btnEsborrarNom) {
         btnEsborrarNom.addEventListener('click', () => {
-                // Forzamos recarga para resetear todo el estado
-                location.reload();
+            location.reload();
         });
     }
 
-    // Botón "Mode Admin"
     if(btnAdminMode) {
         btnAdminMode.addEventListener("click", () => {
             pausarTimer();
@@ -186,10 +165,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Botón "Tornar al Quiz" (CORREGIDO)
     if(btnQuizMode) {
         btnQuizMode.addEventListener("click", () => {
-            // Llamamos a la función que ya se encarga de limpiar todo y volver al inicio
             tornarALogin();
         });
     }
@@ -198,23 +175,28 @@ document.addEventListener("DOMContentLoaded", () => {
     btnEnviar.addEventListener("click", async () => {
         const preguntaActual = estatDeLaPartida.preguntaActualIndex;
 
-        // 1. Verificar si la pregunta actual ha sido respondida
         if (seleccionades[preguntaActual] === null) {
             alert("Si us plau, selecciona una resposta abans de continuar.");
             return;
         }
 
-        // 2. Comprobar si es la última pregunta
         if (preguntaActual === preguntes.length - 1) {
-            // Es la última, finalizar el juego
             aturarTimer();
             jocAcabat = true;
             mostrarResultatsFinals();
             btnEnviar.style.display = "none";
         } else {
-            // Avanzar a la siguiente pregunta
             estatDeLaPartida.preguntaActualIndex++;
             renderPreguntes();
+        }
+    });
+
+    // --- Pregunta Anterior ---
+    btnAnterior.addEventListener("click", () => {
+        if (estatDeLaPartida.preguntaActualIndex > 0) {
+            estatDeLaPartida.preguntaActualIndex--;
+            renderPreguntes();
+            renderitzarMarcador();
         }
     });
 
@@ -226,27 +208,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const q = parseInt(btn.dataset.q);
         const r = parseInt(btn.dataset.r);
         
-        // Desmarcar la respuesta previa
         contenidor.querySelectorAll(`button[data-q="${q}"]`).forEach(b => {
             b.classList.remove("seleccionat");
         });
 
-        // Guardar la nueva selección y marcar el botón
         seleccionades[q] = r;
         btn.classList.add("seleccionat");
         
-        // Actualizar el estado y el marcador
         estatDeLaPartida.respostesUsuari[q] = r;
         estatDeLaPartida.contadorPreguntes = seleccionades.filter(x => x !== null).length;
         
         renderitzarMarcador();
     });
 
-
     // -------------------------------------------------------------
     // --- FUNCIONES DEL JUEGO (Quiz, Timer) ---
     // -------------------------------------------------------------
-    
+
     function iniciarTimer() {
         const timerElement = document.getElementById("timer");
         if(timerElement) timerElement.style.display = "block";
@@ -260,8 +238,8 @@ document.addEventListener("DOMContentLoaded", () => {
             temps--;
             actualitzarDisplayTimer();
             if (temps <= 0) {
-                    finalitzarJocPerTemps();
-                    return;
+                finalitzarJocPerTemps();
+                return;
             }
         }, 1000);
     }
@@ -296,12 +274,12 @@ document.addEventListener("DOMContentLoaded", () => {
         contenidor.style.display = "none";
         marcador.style.display = "none";
         btnEnviar.style.display = "none";
+        btnAnterior.style.display = "none";
         const timerElement = document.getElementById("timer");
         if(timerElement) timerElement.style.display = "none";
         mostrarResultatsFinals();
     }
 
-    // Renderiza resultados y maneja los botones finales
     async function mostrarResultatsFinals() {
         try {
             const res = await fetch('finalitza.php', {
@@ -327,21 +305,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             `;
             
-            // Listener para Jugar de Nou (recarga la página)
-            document.getElementById("btnJugarDeNou").addEventListener('click', () => {
-                    location.reload();
-            });
-
-            // Listener para Canviar Nom (llama a la función corregida, que va directo al login)
-            document.getElementById("btnCanviarNom").addEventListener('click', () => {
-                    tornarALogin();
-            });
+            document.getElementById("btnJugarDeNou").addEventListener('click', () => location.reload());
+            document.getElementById("btnCanviarNom").addEventListener('click', () => tornarALogin());
 
         } catch (err) {
             document.body.innerHTML = `<div style="text-align: center; font-size: 20px; margin-top: 100px; font-family: Arial, sans-serif;"><p style="color: red;">Error: No se pudo calcular els resultats</p><button onclick='location.reload()' style='padding: 20px 40px; font-size: 18px; background: #007cba; color: white; border: none; cursor: pointer; border-radius: 8px;'>Jugar de nou</button></div>`;
         }
     }
-
 
     async function carregarPreguntes() {
         try {
@@ -368,44 +338,35 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --- Renderizar UNA SOLA pregunta ---
-// --- Renderizar UNA SOLA pregunta ---
-function renderPreguntes() {
-    const index = estatDeLaPartida.preguntaActualIndex;
-    const p = preguntes[index];
-    
-    // IMPORTANTE: Buscamos el nuevo contenedor específico para la pregunta
-    const contenidorPregunta = document.getElementById("pregunta-actual-contenidor");
+    function renderPreguntes() {
+        const index = estatDeLaPartida.preguntaActualIndex;
+        const p = preguntes[index];
+        const contenidorPregunta = document.getElementById("pregunta-actual-contenidor");
 
-    if (!p) {
-        aturarTimer();
-        jocAcabat = true;
-        mostrarResultatsFinals();
-        return;
+        if (!p) {
+            aturarTimer();
+            jocAcabat = true;
+            mostrarResultatsFinals();
+            return;
+        }
+
+        let html = "";
+        const i = index; 
+        html += `<h3>${p.pregunta}</h3><div class="respostes">`;
+        let respostesBarrejades = [...p.respostes].sort(() => Math.random() - 0.5);
+        respostesBarrejades.forEach(r => {
+            let imgSrc = r.resposta || "imagenes/default.png";
+            const isSelected = seleccionades[i] === r.id ? "seleccionat" : "";
+            html += `<button class="${isSelected}" data-q="${i}" data-r="${r.id}"><img src="${imgSrc}" alt="Logo" width="60"></button>`;
+        });
+        html += `</div>`;
+        
+        contenidorPregunta.innerHTML = html;
+
+        btnEnviar.textContent = (index === preguntes.length - 1) ? "Finalitzar Quiz" : "Següent Pregunta";
+        btnEnviar.style.display = "block";
+        btnAnterior.style.display = (index > 0) ? "inline-block" : "none";
     }
-
-    let html = "";
-    const i = index; 
-    
-    html += `<h3>${p.pregunta}</h3><div class="respostes">`;
-    let respostesBarrejades = [...p.respostes].sort(() => Math.random() - 0.5);
-    respostesBarrejades.forEach(r => {
-        let imgSrc = r.resposta || "imagenes/default.png";
-        const isSelected = seleccionades[i] === r.id ? "seleccionat" : "";
-        html += `<button class="${isSelected}" data-q="${i}" data-r="${r.id}"><img src="${imgSrc}" alt="Logo" width="60"></button>`;
-    });
-    html += `</div>`;
-    
-    // Inyectamos el HTML en el nuevo div, dejando el botón intacto
-    contenidorPregunta.innerHTML = html;
-
-    // Buscamos la referencia al botón que ya está en el HTML
-    const btnEnviar = document.getElementById("btnEnviar");
-
-    // Actualizamos su texto y lo hacemos visible
-    btnEnviar.textContent = (index === preguntes.length - 1) ? "Finalitzar Quiz" : "Següent Pregunta";
-    btnEnviar.style.display = "block"; 
-}
 
     function renderitzarMarcador() {
         const totalPreguntes = preguntes.length;
@@ -416,7 +377,7 @@ function renderPreguntes() {
     // -------------------------------------------------------------
     // --- FUNCIONES ADMIN (CRUD) ---
     // -------------------------------------------------------------
-
+    
     async function carregarAdmin(adminMode = false) {
         try {
             const res = await fetch('admin.php');

@@ -2,29 +2,29 @@
   display: none;
 }
 
-/* Contenedor general */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f5f5f5;
+}
+
 #quiz-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   flex-direction: column;
-  background: linear-gradient(135deg, #007cba, #00bfa6);
-  font-family: 'Segoe UI', sans-serif;
-  position: relative;
+  padding-top: 80px; /* espacio para marcador y timer */
 }
 
-/* Titulo del quiz */
 h1 {
   text-align: center;
   margin: 20px 0;
   font-size: 36px;
   color: #007cba;
   font-weight: bold;
-  transition: opacity 0.3s;
 }
 
-/* Caja de login */
 #contenidor-usuari {
   background: white;
   padding: 40px;
@@ -33,7 +33,6 @@ h1 {
   max-width: 400px;
   width: 90%;
   text-align: center;
-  animation: fadeIn 0.6s ease-in-out;
   margin: 20px auto;
 }
 
@@ -44,7 +43,6 @@ h1 {
   border: 2px solid #007cba;
   border-radius: 8px;
   font-size: 16px;
-  transition: 0.3s;
 }
 
 #contenidor-usuari input:focus {
@@ -62,7 +60,6 @@ h1 {
   font-size: 16px;
   cursor: pointer;
   margin: 10px;
-  transition: all 0.3s;
 }
 
 #contenidor-usuari button:hover {
@@ -70,7 +67,6 @@ h1 {
   transform: scale(1.05);
 }
 
-/* Top nav: salutacio y borrar nombre */
 #top-nav {
   display: flex;
   justify-content: space-between;
@@ -82,7 +78,7 @@ h1 {
 
 #top-nav #salutacio {
   font-size: 18px;
-  color: white;
+  color: #333;
   font-weight: bold;
 }
 
@@ -94,7 +90,6 @@ h1 {
   border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 #top-nav #esborrar-nom:hover {
@@ -102,9 +97,7 @@ h1 {
   transform: scale(1.05);
 }
 
-/* Caja de preguntas */
 #questionari {
-  position: relative;
   background: white;
   padding: 40px;
   border-radius: 12px;
@@ -112,7 +105,6 @@ h1 {
   max-width: 600px;
   width: 90%;
   margin: 20px auto;
-  animation: slideUp 0.5s ease-in-out;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -124,7 +116,6 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* Respuestas centradas */
 .respostes {
   display: flex;
   justify-content: center;
@@ -152,30 +143,39 @@ h1 {
   max-height: 100px;
 }
 
-/* Marcador arriba derecha debajo del timer */
+/* Marcador fijo superior izquierdo */
 #marcador {
-  position: absolute;
-  top: 60px;
-  right: 30px;
+  position: fixed;
+  top: 15px;
+  left: 20px;
   font-size: 18px;
-  color: white;
   font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  color: #007cba;
+  z-index: 1000;
+  transition: background 0.3s, color 0.3s;
 }
 
-/* Timer arriba derecha */
+/* Timer fijo superior derecho */
 #timer {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  font-size: 20px;
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  font-size: 18px;
   font-weight: bold;
-  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  color: #ff5252;
+  z-index: 1000;
 }
 
-/* Botón enviar respuestas fuera del recuadro, centrado */
-/* Botón enviar ahora DENTRO del recuadro */
 #btnEnviar {
-  margin-top: 30px; /* Un poco más de margen para que respire */
+  margin-top: 30px;
   background: #00bfa6;
   color: white;
   border: none;
@@ -185,14 +185,13 @@ h1 {
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s;
-  }
+}
 
 #btnEnviar:hover {
   background: #009b86;
   transform: scale(1.05);
 }
 
-/* Panel admin */
 #admin-panel {
   margin: 40px auto;
   padding: 20px;
@@ -209,4 +208,42 @@ h1 {
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  #marcador, #timer {
+    position: static;
+    text-align: center;
+    margin: 5px 0;
+    width: auto;
+  }
+
+  #questionari {
+    width: 95%;
+    padding: 25px 15px;
+  }
+
+  .respostes {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .respostes button {
+    width: 80%;
+    max-width: 250px;
+  }
+
+  #btnEnviar {
+    width: 100%;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 22px; }
+  #questionari { padding: 20px 10px; }
+  .respostes button { width: 100%; }
+  #btnEnviar { font-size: 15px; }
 }

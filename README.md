@@ -60,7 +60,8 @@ Aquest projecte contribueix a l’**ODS 4: Educació de Qualitat**, ja que:
 [https://github.com/IkerMata/transversal](https://github.com/IkerMata/transversal)
 
 ### Aplicació desplegada (Vercel/Netlify)  
-*(Afegeix aquí l’enllaç quan estigui desplegada)*  
+<img width="1920" height="1080" alt="Captura de pantalla (6)" src="https://github.com/user-attachments/assets/4e9111c0-f902-495c-a35c-e26ce961e8e2" />
+
 
 ### Captura SonarCloud  
 *(Inclou aquí la imatge o l’enllaç de la teva anàlisi SonarCloud)*  

@@ -64,7 +64,8 @@ Aquest projecte contribueix a l’**ODS 4: Educació de Qualitat**, ja que:
 
 
 ### Captura SonarCloud  
-*(Inclou aquí la imatge o l’enllaç de la teva anàlisi SonarCloud)*  
+<img width="1920" height="1080" alt="Captura de pantalla (7)" src="https://github.com/user-attachments/assets/38c5ed6c-a8de-4989-b235-8543ba036b8d" />
+
 
 ### Historial Git  
 Visualització de les branques i l’activitat de desenvolupament.  

@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="style.css">
 <link rel="shortcut icon" href="quiz.ico" type="image/x-icon">
+<link rel="stylesheet" href="normalice.css">
 <title>Quiz Logos</title>
 <style>
- /* Mantén la clase hidden por si la necesitas en el script */
 .hidden {
  display: none;
 }
@@ -14,12 +14,10 @@
 </head>
 <body>
 <h1>Quiz Logos</h1>
-
 <div id="mode-selector" style="margin-bottom: 15px;">
 <button id="btnAdminMode">Mode Admin</button>
 <button id="btnQuizMode">Tornar al Quiz</button>
 </div>
-
 <div id="contenidor-usuari"> 
 <form id="formulari-usuari">
 <label for="nom-usuari">Introdueix el teu nom:</label>
@@ -27,33 +25,26 @@
 <button type="button" id="guardar-nom">Guardar</button>
 </form>
 </div>
-
 <div id="timer" style="font-size:18px; font-weight:bold; margin:10px 0;">
 Temps: 30s
 </div>
-
 <div id="quiz-wrapper"> 
     <div id="top-nav"> 
         <p id="salutacio"></p>
         <button type="button" id="esborrar-nom">Esborrar nom</button>
     </div>
-
     <div id="marcador"></div>
-
     <div id="questionari">
         <div id="pregunta-actual-contenidor"></div>
         <div class="controls">
             <button id="btnAnterior" style="display:none;">Pregunta Anterior</button>
-            <button id="btnEnviar" style="display:none;">Següent Pregunta</button>
+            <button id="btnEnviar" style="display:none;">Següent Pregunta</button>  
         </div>
     </div>
     
 </div>
-
 <div id="resultats"></div> 
-
 <div id="admin-panel" style="display:none;"></div>
-
 <script type="module" src="script.js"></script>
 </body>
 </html>

@@ -66,6 +66,17 @@ Aquest projecte contribueix a l’**ODS 4: Educació de Qualitat**, ja que:
 ### Captura SonarCloud  
 <img width="1920" height="1080" alt="Captura de pantalla (7)" src="https://github.com/user-attachments/assets/38c5ed6c-a8de-4989-b235-8543ba036b8d" />
 
+**Resultats de l’anàlisi de SonarCloud:**  
+
+- **Errors tipus E (crítics):** Presència de credencials de la base de dades dins del codi PHP. És un risc de seguretat i es recomana utilitzar variables d’entorn.  
+- **Errors tipus B (mitjans):** Bones pràctiques de JavaScript, com:
+  - Reemplaçar `parseInt` per `Number.parseInt`.  
+  - Evitar noms duplicats.  
+  - Moure la funció `novaResposta` fora d’altres àmbits.  
+- **Errors tipus A (baixos):** Neteja de codi, com eliminar espais innecessaris o línies en blanc.  
+
+> Aquesta anàlisi mostra que el projecte ha estat revisat i les àrees de millora són identificades de manera clara.
+
 
 ### Historial Git  
 <img width="1920" height="1080" alt="Captura de pantalla (8)" src="https://github.com/user-attachments/assets/2fb2e82e-6c12-427a-b00d-1342e28ad475" />

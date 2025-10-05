@@ -12,7 +12,7 @@ try {
     // Número de preguntas a obtener
     $num = isset($_GET['num']) ? intval($_GET['num']) : 10;
 
-    // 1️⃣ Obtener preguntas aleatorias
+    //  Obtener preguntas aleatorias
     $stmt = $pdo->prepare("SELECT * FROM preguntes ORDER BY RAND() LIMIT ?");
     $stmt->bindValue(1, $num, PDO::PARAM_INT);
     $stmt->execute();
@@ -25,7 +25,7 @@ try {
 
     $result = [];
     foreach ($preguntas as $p) {
-        // 2️⃣ Obtener respuestas de cada pregunta
+        //  Obtener respuestas de cada pregunta
         $stmt2 = $pdo->prepare("SELECT id, resposta FROM respostes WHERE pregunta_id = ?");
         $stmt2->execute([$p['id']]);
         $respuestas = $stmt2->fetchAll(PDO::FETCH_ASSOC);
@@ -37,7 +37,7 @@ try {
         ];
     }
 
-    // 3️⃣ Guardar preguntas en sesión para luego comprobar respuestas
+    //  Guardar preguntas en sesión para luego comprobar respuestas
     $_SESSION['quiz_questions'] = $preguntas;
 
     echo json_encode($result);

@@ -8,7 +8,7 @@ require 'config.php';
 header('Content-Type: application/json');
 session_start();
 
-// 1️⃣ Leer respuestas enviadas desde el frontend
+//  Leer respuestas enviadas desde el frontend
 $data = json_decode(file_get_contents("php://input"), true);
 if (!is_array($data)) {
     http_response_code(400);
@@ -16,7 +16,7 @@ if (!is_array($data)) {
     exit;
 }
 
-// 2️⃣ Recuperar preguntas almacenadas en sesión
+//  Recuperar preguntas almacenadas en sesión
 $stored = $_SESSION['quiz_questions'] ?? null;
 if (!$stored) {
     http_response_code(400);
@@ -27,7 +27,7 @@ if (!$stored) {
 $total = count($stored);
 $correctes = 0;
 
-// 3️⃣ Comparar cada respuesta enviada con la correcta
+//  Comparar cada respuesta enviada con la correcta
 foreach ($data as $i => $respostaId) {
     if (!isset($stored[$i]['id'])) continue;
 

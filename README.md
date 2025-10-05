@@ -68,7 +68,8 @@ Aquest projecte contribueix a l’**ODS 4: Educació de Qualitat**, ja que:
 
 
 ### Historial Git  
-Visualització de les branques i l’activitat de desenvolupament.  
+<img width="1920" height="1080" alt="Captura de pantalla (8)" src="https://github.com/user-attachments/assets/2fb2e82e-6c12-427a-b00d-1342e28ad475" />
+
 
 ---
 
